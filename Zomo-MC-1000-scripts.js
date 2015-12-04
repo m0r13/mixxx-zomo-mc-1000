@@ -1,3 +1,5 @@
+function MC1000() {};
+
 KEYS = {
     "play" : 0x0E,
     "sync" : 0x0F,
@@ -22,8 +24,15 @@ function setPlayLight(channel, value) {
     midi.sendShortMsg(0x90 + channel - 1, 0x0E, green ? 0x7f : 0);
 }
 
-function MC1000() {
-};
+function connectControl(group, control, handler) {
+    engine.connectControl(group, control, handler);
+    engine.trigger(group, control);
+}
+
+function connectChannelControl(control, handler) {
+    for (var channel = 1; channel <= 2; channel++)
+        connectControl("[Channel" + channel + "]", control, handler);
+}
 
 MC1000.lastLoop = {};
 
@@ -37,24 +46,12 @@ MC1000.init = function () {
         // setPlayLight(channel, PLAY_RED_BLINK);
     }
 
-    engine.connectControl("[Channel1]", "play", "MC1000.playLED");
-    engine.trigger("[Channel1]", "play");
-    engine.connectControl("[Channel2]", "play", "MC1000.playLED");
-    engine.trigger("[Channel2]", "play");
+    connectControl("[Channel1]", "play", "MC1000.playLED");
+    connectControl("[Channel2]", "play", "MC1000.playLED");
     
-    engine.connectControl("[Channel1]", "hotcue_1_enabled", "MC1000.hotCueLED");
-    engine.trigger("[Channel1]", "hotcue_1_enabled");
-    engine.connectControl("[Channel1]", "hotcue_2_enabled", "MC1000.hotCueLED");
-    engine.trigger("[Channel1]", "hotcue_2_enabled");
-    engine.connectControl("[Channel1]", "hotcue_3_enabled", "MC1000.hotCueLED");
-    engine.trigger("[Channel1]", "hotcue_3_enabled");
-    
-    engine.connectControl("[Channel2]", "hotcue_1_enabled", "MC1000.hotCueLED");
-    engine.trigger("[Channel2]", "hotcue_1_enabled");
-    engine.connectControl("[Channel2]", "hotcue_2_enabled", "MC1000.hotCueLED");
-    engine.trigger("[Channel2]", "hotcue_2_enabled");
-    engine.connectControl("[Channel2]", "hotcue_3_enabled", "MC1000.hotCueLED");
-    engine.trigger("[Channel2]", "hotcue_3_enabled");
+    connectChannelControl("hotcue_1_enabled", "MC1000.hotCueLED");
+    connectChannelControl("hotcue_2_enabled", "MC1000.hotCueLED");
+    connectChannelControl("hotcue_3_enabled", "MC1000.hotCueLED");
 };
  
 MC1000.shutdown = function() {
