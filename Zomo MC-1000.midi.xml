@@ -5,7 +5,7 @@
         <author>hirsch.k</author>
         <description> MIDI Mapping for Zomo MC-1000</description>
     </info>
-    <controller id="Zomo MC-1000">
+    <controller id="MC-1000">
         <scriptfiles>
             <file functionprefix="MC1000" filename="Zomo-MC-1000-scripts.js"/>
         </scriptfiles>
@@ -22,12 +22,39 @@
             </control>
             <control>
                 <group>[Channel1]</group>
+                <key>MC1000.loopKnobPress</key>
+                <status>0x90</status>
+                <midino>0x0A</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>MC1000.loopKnobPress</key>
+                <status>0x91</status>
+                <midino>0x0A</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
                 <key>play</key>
                 <description>MIDI Learned from 2 messages.</description>
                 <status>0x90</status>
                 <midino>0x0E</midino>
                 <options>
                     <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>MC1000.loopKnob</key>
+                <status>0xB0</status>
+                <midino>0x21</midino>
+                <options>
+                    <script-binding/>
                 </options>
             </control>
             <control>
@@ -41,6 +68,15 @@
                 </options>
             </control>
             <control>
+                <group>[Channel2]</group>
+                <key>MC1000.loopKnob</key>
+                <status>0xB1</status>
+                <midino>0x21</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
                 <group>[Playlist]</group>
                 <key>SelectTrackKnob</key>
                 <description>MIDI Learned from 79 messages.</description>
@@ -51,6 +87,66 @@
                 </options>
             </control>
             <control>
+                <group>[Channel1]</group>
+                <key>hotcue_1_activate</key>
+                <description>MIDI Learned from 2 messages.</description>
+                <status>0x90</status>
+                <midino>0x01</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_2_activate</key>
+                <description>MIDI Learned from 4 messages.</description>
+                <status>0x90</status>
+                <midino>0x02</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_1_activate</key>
+                <description>MIDI Learned from 8 messages.</description>
+                <status>0x91</status>
+                <midino>0x01</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>hotcue_3_activate</key>
+                <description>MIDI Learned from 6 messages.</description>
+                <status>0x90</status>
+                <midino>0x03</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_2_activate</key>
+                <description>MIDI Learned from 10 messages.</description>
+                <status>0x91</status>
+                <midino>0x02</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>hotcue_3_activate</key>
+                <description>MIDI Learned from 12 messages.</description>
+                <status>0x91</status>
+                <midino>0x03</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
                 <group>[Channel2]</group>
                 <key>LoadSelectedTrack</key>
                 <description>MIDI Learned from 6 messages.</description>
@@ -58,42 +154,6 @@
                 <midino>0x19</midino>
                 <options>
                     <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>MC1000.loopKnob</key>
-                <status>0xB0</status>
-                <midino>0x21</midino>
-                <options>
-                    <Script-Binding />
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>MC1000.loopKnob</key>
-                <status>0xB1</status>
-                <midino>0x21</midino>
-                <options>
-                    <Script-Binding />
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>MC1000.loopKnobPress</key>
-                <status>0x90</status>
-                <midino>0x0A</midino>
-                <options>
-                    <Script-Binding />
-                </options>
-            </control>
-            <control>
-                <group>[Channel2]</group>
-                <key>MC1000.loopKnobPress</key>
-                <status>0x91</status>
-                <midino>0x0A</midino>
-                <options>
-                    <Script-Binding />
                 </options>
             </control>
         </controls>

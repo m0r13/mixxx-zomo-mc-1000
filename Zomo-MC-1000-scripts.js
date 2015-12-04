@@ -34,21 +34,25 @@ function connectChannelControl(control, handler) {
         connectControl("[Channel" + channel + "]", control, handler);
 }
 
+function channelByGroup(group) {
+    var matches = group.match(/\[Channel(\d)\]/);
+    if (!matches)
+        return null;
+    return parseInt(matches[1]);
+}
+
 MC1000.lastLoop = {};
 
 MC1000.init = function () {
     // turn on all LEDs
-    
     for (var channel = 1; channel <= 2; channel++) {
-        for (var i = 0x0E; i <= 40; i++) {
+        for (var i = 0; i <= 40; i++) {
              midi.sendShortMsg(0x90 + channel - 1, i, 0x7f);
         }
         // setPlayLight(channel, PLAY_RED_BLINK);
     }
 
-    connectControl("[Channel1]", "play", "MC1000.playLED");
-    connectControl("[Channel2]", "play", "MC1000.playLED");
-    
+    connectChannelControl("play", "MC1000.playLED");
     connectChannelControl("hotcue_1_enabled", "MC1000.hotCueLED");
     connectChannelControl("hotcue_2_enabled", "MC1000.hotCueLED");
     connectChannelControl("hotcue_3_enabled", "MC1000.hotCueLED");
@@ -64,9 +68,15 @@ MC1000.shutdown = function() {
 };
 
 MC1000.playLED = function(value, group, control) {
-    channel = group == "[Channel1]" ? 1 : 2;
+    var channel = channelByGroup(group);
     light = value ? PLAY_GREEN : PLAY_RED;
-    setPlayLight(channel, light)
+    // red/green play button for playing/not playing
+    setPlayLight(channel, light);
+    // light the "load track into deck a/b" button only if there is no track playing
+    if (channel == 1 || channel == 2) {
+        var loadControl = channel == 1 ? 0x09 : 0x19;
+        midi.sendShortMsg(0x90, loadControl, !value);
+    }
 };
 
 MC1000.hotCueLED = function(value, group, control) {
