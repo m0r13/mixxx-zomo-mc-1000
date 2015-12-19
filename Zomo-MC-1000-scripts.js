@@ -176,7 +176,9 @@ MC1000.effectParameterButton = function(channel, control, value, status, group) 
     var setControl = "";
     if (channelNumber == 1) {
         if (buttonNumber == 1) {
-            MC1000.pitchMode[group] = !MC1000.pitchMode[group];
+            var mode = MC1000.pitchMode[group];
+            midi.sendShortMsg(0x90 + channelByGroup(group) - 1, control, !mode);
+            MC1000.pitchMode[group] = !mode;
             return;
         } else if (buttonNumber == 2)
             setControl = "filterLowKill";
@@ -192,7 +194,9 @@ MC1000.effectParameterButton = function(channel, control, value, status, group) 
         else if (buttonNumber == 3)
             setControl = "filterHighKill";
         else if (buttonNumber == 4) {
-            MC1000.pitchMode[group] = !MC1000.pitchMode[group];
+            var mode = MC1000.pitchMode[group];
+            midi.sendShortMsg(0x90 + channelByGroup(group) - 1, control, !mode);
+            MC1000.pitchMode[group] = !mode;
             return;
         }
     } else {
@@ -242,16 +246,6 @@ MC1000.loopKnobPress = function(channel, control, value, status, group) {
     engine.setValue(group, "beatloop_" + loop + "_toggle", true);
     engine.setValue(group, "beatloop_" + loop + "_toggle", false);
     script.midiDebug(channel, control, value, status, group);
-};
-
-MC1000.pitchShift = function(channel, control, value, status, group) {
-    if (value != 0x7F)
-        return;
-    mode = !MC1000.pitchMode[group];
-    print("pitchShift mode: " + mode);
-    midi.sendShortMsg(0x90 + channelByGroup(group) - 1, control, mode);
-
-    MC1000.pitchMode[group] = mode;
 };
 
 MC1000.pitch = function(channel, control, value, status, group) {

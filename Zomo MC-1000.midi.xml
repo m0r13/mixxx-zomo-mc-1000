@@ -231,15 +231,6 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>MC1000.pitchShift</key>
-                <status>0x91</status>
-                <midino>0x07</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
                 <group>[QuickEffectRack1_[Channel2]]</group>
                 <key>super1</key>
                 <description>MIDI Learned from 472 messages.</description>
@@ -277,15 +268,6 @@
                 <midino>0x11</midino>
                 <options>
                     <normal/>
-                </options>
-            </control>
-            <control>
-                <group>[Channel1]</group>
-                <key>MC1000.pitchShift</key>
-                <status>0x90</status>
-                <midino>0x04</midino>
-                <options>
-                    <script-binding/>
                 </options>
             </control>
             <control>
