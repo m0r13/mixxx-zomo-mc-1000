@@ -43,6 +43,13 @@ function channelByGroup(group) {
 
 MC1000.lastLoop = {};
 
+var PITCH_PITCH = false;
+var PITCH_SEEK = true;
+MC1000.pitchMode = {
+    "[Channel1]" : PITCH_PITCH,
+    "[Channel2]" : PITCH_PITCH,
+};
+
 MC1000.init = function () {
     // turn on all LEDs
     for (var channel = 1; channel <= 2; channel++) {
@@ -52,10 +59,14 @@ MC1000.init = function () {
         // setPlayLight(channel, PLAY_RED_BLINK);
     }
 
-    connectChannelControl("play", "MC1000.playLED");
-    connectChannelControl("hotcue_1_enabled", "MC1000.hotCueLED");
-    connectChannelControl("hotcue_2_enabled", "MC1000.hotCueLED");
-    connectChannelControl("hotcue_3_enabled", "MC1000.hotCueLED");
+    midi.sendShortMsg(0x90, 0x04, MC1000.pitchMode["[Channel1]"]);
+    midi.sendShortMsg(0x91, 0x07, MC1000.pitchMode["[Channel2]"]);
+
+    connectChannelControl("play", "MC1000.handlePlayControl");
+    connectChannelControl("loop_enabled", "MC1000.handleLoopEnabledControl");
+    connectChannelControl("hotcue_1_enabled", "MC1000.handleHotcueEnabledControl");
+    connectChannelControl("hotcue_2_enabled", "MC1000.handleHotcueEnabledControl");
+    connectChannelControl("hotcue_3_enabled", "MC1000.handleHotcueEnabledControl");
 };
  
 MC1000.shutdown = function() {
@@ -67,7 +78,7 @@ MC1000.shutdown = function() {
     }
 };
 
-MC1000.playLED = function(value, group, control) {
+MC1000.handlePlayControl = function(value, group, control) {
     var channel = channelByGroup(group);
     light = value ? PLAY_GREEN : PLAY_RED;
     // red/green play button for playing/not playing
@@ -79,10 +90,16 @@ MC1000.playLED = function(value, group, control) {
     }
 };
 
-MC1000.hotCueLED = function(value, group, control) {
-    channel = {"[Channel1]" : 0, "[Channel2]" : 1}[group];
-    hotcue = {"hotcue_1_enabled" : 1, "hotcue_2_enabled" : 2, "hotcue_3_enabled" : 3}[control];
-    midi.sendShortMsg(0x90 + channel, hotcue, value == 1 ? 0x7f : 0x00);
+MC1000.handleLoopEnabledControl = function(value, group, control) {
+    var channel = channelByGroup(group);
+    var control = channel == 1 ? 0x05 : 0x04;
+    midi.sendShortMsg(0x8F + channel, control, value);
+}
+
+MC1000.handleHotcueEnabledControl = function(value, group, control) {
+    var channel = channelByGroup(group);
+    var hotcue = {"hotcue_1_enabled" : 1, "hotcue_2_enabled" : 2, "hotcue_3_enabled" : 3}[control];
+    midi.sendShortMsg(0x8F + channel, hotcue, value == 1 ? 0x7f : 0x00);
 };
 
 LOOPS = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64];
@@ -124,5 +141,39 @@ MC1000.loopKnobPress = function(channel, control, value, status, group) {
     engine.setValue(group, "beatloop_" + loop + "_toggle", true);
     engine.setValue(group, "beatloop_" + loop + "_toggle", false);
     script.midiDebug(channel, control, value, status, group);
+};
+
+MC1000.pitchShift = function(channel, control, value, status, group) {
+    if (value != 0x7F)
+        return;
+    mode = !MC1000.pitchMode[group];
+    print("pitchShift mode: " + mode);
+    midi.sendShortMsg(0x90 + channelByGroup(group) - 1, control, mode);
+
+    MC1000.pitchMode[group] = mode;
+};
+
+MC1000.pitch = function(channel, control, value, status, group) {
+    var mode = MC1000.pitchMode[group];
+    var more = control == 0x0C && value == 0x7F;
+    var less = control == 0x0D && value == 0x7F;
+    if (mode == PITCH_SEEK) {
+        if (less) {
+            engine.setValue(group, "back", true);
+        } else if (more) {
+            engine.setValue(group, "fwd", true);
+        } else {
+            engine.setValue(group, "back", false);
+            engine.setValue(group, "fwd", false);
+        }
+    } else if (mode == PITCH_PITCH) {
+        if (less) {
+            engine.setValue(group, "rate_perm_down_small", true);
+            engine.setValue(group, "rate_perm_down_small", false);
+        } else if (more) {
+            engine.setValue(group, "rate_perm_up_small", true);
+            engine.setValue(group, "rate_perm_up_small", false);
+        }
+    }
 };
 

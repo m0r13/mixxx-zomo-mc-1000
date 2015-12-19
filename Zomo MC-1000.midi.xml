@@ -87,10 +87,29 @@
                 </options>
             </control>
             <control>
+                <group>[Channel2]</group>
+                <key>MC1000.pitchShift</key>
+                <status>0x91</status>
+                <midino>0x07</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
                 <group>[QuickEffectRack1_[Channel2]]</group>
                 <key>super1</key>
                 <description>MIDI Learned from 472 messages.</description>
                 <status>0xB1</status>
+                <midino>0x05</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>reloop_exit</key>
+                <description>MIDI Learned from 2 messages.</description>
+                <status>0x90</status>
                 <midino>0x05</midino>
                 <options>
                     <normal/>
@@ -112,6 +131,25 @@
                 <description>MIDI Learned from 472 messages.</description>
                 <status>0x91</status>
                 <midino>0x11</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel1]</group>
+                <key>MC1000.pitchShift</key>
+                <status>0x90</status>
+                <midino>0x04</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>reloop_exit</key>
+                <description>MIDI Learned from 4 messages.</description>
+                <status>0x91</status>
+                <midino>0x04</midino>
                 <options>
                     <normal/>
                 </options>
@@ -217,6 +255,15 @@
                 </options>
             </control>
             <control>
+                <group>[Channel1]</group>
+                <key>MC1000.pitch</key>
+                <status>0x90</status>
+                <midino>0x0D</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
                 <group>[Channel2]</group>
                 <key>hotcue_1_activate</key>
                 <description>MIDI Learned from 8 messages.</description>
@@ -224,6 +271,15 @@
                 <midino>0x01</midino>
                 <options>
                     <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>MC1000.pitch</key>
+                <status>0x91</status>
+                <midino>0x0D</midino>
+                <options>
+                    <script-binding/>
                 </options>
             </control>
             <control>
@@ -237,6 +293,15 @@
                 </options>
             </control>
             <control>
+                <group>[Channel1]</group>
+                <key>MC1000.pitch</key>
+                <status>0x90</status>
+                <midino>0x0C</midino>
+                <options>
+                    <script-binding/>
+                </options>
+            </control>
+            <control>
                 <group>[Playlist]</group>
                 <key>SelectTrackKnob</key>
                 <description>MIDI Learned from 79 messages.</description>
@@ -244,6 +309,15 @@
                 <midino>0x23</midino>
                 <options>
                     <spread64/>
+                </options>
+            </control>
+            <control>
+                <group>[Channel2]</group>
+                <key>MC1000.pitch</key>
+                <status>0x91</status>
+                <midino>0x0C</midino>
+                <options>
+                    <script-binding/>
                 </options>
             </control>
         </controls>
