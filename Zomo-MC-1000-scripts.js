@@ -68,8 +68,11 @@ MC1000.init = function () {
     midi.sendShortMsg(0x90, 0x04, MC1000.pitchMode["[Channel1]"]);
     midi.sendShortMsg(0x91, 0x07, MC1000.pitchMode["[Channel2]"]);
 
+    connectChannelControl("filterLowKill", "MC1000.handleFilterKill");
+    connectChannelControl("filterMidKill", "MC1000.handleFilterKill");
+    connectChannelControl("filterHighKill", "MC1000.handleFilterKill");
     connectChannelControl("play", "MC1000.handlePlayControl");
-    connectChannelControl("loop_enabled", "MC1000.handleLoopEnabledControl");
+//    connectChannelControl("loop_enabled", "MC1000.handleLoopEnabledControl");
     connectChannelControl("hotcue_1_enabled", "MC1000.handleHotcueEnabledControl");
     connectChannelControl("hotcue_2_enabled", "MC1000.handleHotcueEnabledControl");
     connectChannelControl("hotcue_3_enabled", "MC1000.handleHotcueEnabledControl");
@@ -100,6 +103,25 @@ MC1000.handlePlayControl = function(value, group, control) {
         midi.sendShortMsg(0x90, loadControl, !value);
     }
 };
+
+MC1000.handleFilterKill = function(value, group, control) {
+    var channel = channelByGroup(group);
+    if (channel > 2)
+        return;
+    var eq = 0;
+    if (control == "filterLowKill")
+        eq = 1;
+    else if (control == "filterMidKill")
+        eq = 2;
+    else if (control == "filterHighKill")
+        eq = 3;
+    else
+        return;
+    var setControl = 0x4 + eq;
+    if (channel == 2)
+        setControl--;
+    midi.sendShortMsg(0x8F + channel, setControl, value);
+}
 
 MC1000.handleLoopEnabledControl = function(value, group, control) {
     var channel = channelByGroup(group);
@@ -144,6 +166,41 @@ MC1000.effectParameterKnob = function(channel, control, value, status, group) {
     else
         value = script.absoluteLin(value, 0.0, 1.0);
     engine.setValue(group, setControl, value);
+};
+
+MC1000.effectParameterButton = function(channel, control, value, status, group) {
+    if (value != 0x7F)
+        return;
+    var buttonNumber = control - 0x3;
+    var channelNumber = channelByGroup(group);
+    var setControl = "";
+    if (channelNumber == 1) {
+        if (buttonNumber == 1) {
+            MC1000.pitchMode[group] = !MC1000.pitchMode[group];
+            return;
+        } else if (buttonNumber == 2)
+            setControl = "filterLowKill";
+        else if (buttonNumber == 3)
+            setControl = "filterMidKill";
+        else if (buttonNumber == 4)
+            setControl = "filterHighKill";
+    } else if (channelNumber == 2) {
+        if (buttonNumber == 1)
+            setControl = "filterLowKill";
+        else if (buttonNumber == 2)
+            setControl = "filterMidKill";
+        else if (buttonNumber == 3)
+            setControl = "filterHighKill";
+        else if (buttonNumber == 4) {
+            MC1000.pitchMode[group] = !MC1000.pitchMode[group];
+            return;
+        }
+    } else {
+        return;
+    }
+
+    var killed = engine.getValue(group, setControl);
+    engine.setValue(group, setControl, !killed);
 };
 
 LOOPS = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64];
