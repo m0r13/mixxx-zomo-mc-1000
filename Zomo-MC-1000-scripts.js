@@ -34,6 +34,12 @@ function connectChannelControl(control, handler) {
         connectControl("[Channel" + channel + "]", control, handler);
 }
 
+function setSoftTakeover(control, enabled) {
+    for (var channel = 1; channel <= 2; channel++) {
+        engine.softTakeover("[Channel" + channel + "]", control, true);
+    }
+}
+
 function channelByGroup(group) {
     var matches = group.match(/\[Channel(\d)\]/);
     if (!matches)
@@ -67,6 +73,11 @@ MC1000.init = function () {
     connectChannelControl("hotcue_1_enabled", "MC1000.handleHotcueEnabledControl");
     connectChannelControl("hotcue_2_enabled", "MC1000.handleHotcueEnabledControl");
     connectChannelControl("hotcue_3_enabled", "MC1000.handleHotcueEnabledControl");
+
+    setSoftTakeover("volume", true);
+    setSoftTakeover("filterLow", true);
+    setSoftTakeover("filterMid", true);
+    setSoftTakeover("filterHigh", true);
 };
  
 MC1000.shutdown = function() {
@@ -94,12 +105,45 @@ MC1000.handleLoopEnabledControl = function(value, group, control) {
     var channel = channelByGroup(group);
     var control = channel == 1 ? 0x05 : 0x04;
     midi.sendShortMsg(0x8F + channel, control, value);
-}
+};
 
 MC1000.handleHotcueEnabledControl = function(value, group, control) {
     var channel = channelByGroup(group);
     var hotcue = {"hotcue_1_enabled" : 1, "hotcue_2_enabled" : 2, "hotcue_3_enabled" : 3}[control];
     midi.sendShortMsg(0x8F + channel, hotcue, value == 1 ? 0x7f : 0x00);
+};
+
+MC1000.effectParameterKnob = function(channel, control, value, status, group) {
+    script.midiDebug(channel, control, value, status, group);
+    var knobNumber = control;
+    var channelNumber = channelByGroup(group);
+    var setControl = "";
+    if (channelNumber == 1) {
+        if (knobNumber == 1)
+            setControl = "volume";
+        else if (knobNumber == 2)
+            setControl = "filterLow";
+        else if (knobNumber == 3)
+            setControl = "filterMid";
+        else if (knobNumber == 4)
+            setControl = "filterHigh";
+    } else if (channelNumber == 2) {
+        if (knobNumber == 1)
+            setControl = "filterLow";
+        else if (knobNumber == 2)
+            setControl = "filterMid";
+        else if (knobNumber == 3)
+            setControl = "filterHigh";
+        else if (knobNumber == 4)
+            setControl = "volume";
+    } else {
+        return;
+    }
+    if (setControl.substr(0, 6) == "filter")
+        value = script.absoluteNonLin(value, 0.0, 1.0, 4.0);
+    else
+        value = script.absoluteLin(value, 0.0, 1.0);
+    engine.setValue(group, setControl, value);
 };
 
 LOOPS = [0.03125, 0.0625, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64];
