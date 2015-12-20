@@ -48,6 +48,16 @@
                 </options>
             </control>
             <control>
+                <group>[Playlist]</group>
+                <key>SelectPlaylist</key>
+                <description>MIDI Learned from 39 messages.</description>
+                <status>0xB0</status>
+                <midino>0x62</midino>
+                <options>
+                    <spread64/>
+                </options>
+            </control>
+            <control>
                 <group>[Channel2]</group>
                 <key>MC1000.effectParameterButton</key>
                 <status>0x91</status>
@@ -104,18 +114,6 @@
                     <normal/>
                 </options>
             </control>
-            <!--
-            <control>
-                <group>[Channel1]</group>
-                <key>reloop_exit</key>
-                <description>MIDI Learned from 2 messages.</description>
-                <status>0x90</status>
-                <midino>0x05</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            -->
             <control>
                 <group>[Channel1]</group>
                 <key>MC1000.effectParameterButton</key>
@@ -199,18 +197,6 @@
                     <script-binding/>
                 </options>
             </control>
-            <!--
-            <control>
-                <group>[Channel2]</group>
-                <key>reloop_exit</key>
-                <description>MIDI Learned from 4 messages.</description>
-                <status>0x91</status>
-                <midino>0x04</midino>
-                <options>
-                    <normal/>
-                </options>
-            </control>
-            -->
             <control>
                 <group>[Channel2]</group>
                 <key>MC1000.effectParameterButton</key>
@@ -352,6 +338,16 @@
                 <description>MIDI Learned from 472 messages.</description>
                 <status>0xB1</status>
                 <midino>0x05</midino>
+                <options>
+                    <normal/>
+                </options>
+            </control>
+            <control>
+                <group>[Playlist]</group>
+                <key>ToggleSelectedSidebarItem</key>
+                <description>MIDI Learned from 8 messages.</description>
+                <status>0x90</status>
+                <midino>0x61</midino>
                 <options>
                     <normal/>
                 </options>
