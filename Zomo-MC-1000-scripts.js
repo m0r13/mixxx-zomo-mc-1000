@@ -71,6 +71,7 @@ MC1000.init = function () {
     connectChannelControl("filterLowKill", "MC1000.handleFilterKill");
     connectChannelControl("filterMidKill", "MC1000.handleFilterKill");
     connectChannelControl("filterHighKill", "MC1000.handleFilterKill");
+    connectChannelControl("pfl", "MC1000.handleHeadphoneCue");
     connectChannelControl("play", "MC1000.handlePlayControl");
 //    connectChannelControl("loop_enabled", "MC1000.handleLoopEnabledControl");
     connectChannelControl("hotcue_1_enabled", "MC1000.handleHotcueEnabledControl");
@@ -121,7 +122,15 @@ MC1000.handleFilterKill = function(value, group, control) {
     if (channel == 2)
         setControl--;
     midi.sendShortMsg(0x8F + channel, setControl, value);
-}
+};
+
+MC1000.handleHeadphoneCue = function(value, group, control) {
+    var channel = channelByGroup(group);
+    if (channel > 2)
+        return;
+    var setControl = channel == 1 ? 0x0B : 0x1B;
+    midi.sendShortMsg(0x90, setControl, value);
+};
 
 MC1000.handleLoopEnabledControl = function(value, group, control) {
     var channel = channelByGroup(group);

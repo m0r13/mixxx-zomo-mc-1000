@@ -105,8 +105,8 @@
                 </options>
             </control>
             <control>
-                <group>[Playlist]</group>
-                <key>SelectPrevPlaylist</key>
+                <group>[Channel1]</group>
+                <key>pfl</key>
                 <description>MIDI Learned from 4 messages.</description>
                 <status>0x90</status>
                 <midino>0x0B</midino>
@@ -151,8 +151,8 @@
                 </options>
             </control>
             <control>
-                <group>[Playlist]</group>
-                <key>SelectNextPlaylist</key>
+                <group>[Channel2]</group>
+                <key>pfl</key>
                 <description>MIDI Learned from 4 messages.</description>
                 <status>0x90</status>
                 <midino>0x1B</midino>
