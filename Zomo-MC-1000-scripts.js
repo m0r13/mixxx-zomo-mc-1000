@@ -254,7 +254,17 @@ MC1000.loopKnobPress = function(channel, control, value, status, group) {
     print("loop press: " + loop);
     engine.setValue(group, "beatloop_" + loop + "_toggle", true);
     engine.setValue(group, "beatloop_" + loop + "_toggle", false);
-    script.midiDebug(channel, control, value, status, group);
+};
+
+MC1000.effectSelectKnob = function(channel, control, value, status, group) {
+    if (value != 0x3F && value != 0x41)
+        return;
+    var loop = currentLoop(group);
+    if (loop == 0)
+        return;
+    var direction = value == 0x3F ? "backward" : "forward";
+    engine.setValue(group, "loop_move_" + loop + "_" + direction, true);
+    engine.setValue(group, "loop_move_" + loop + "_" + direction, false);
 };
 
 MC1000.pitch = function(channel, control, value, status, group) {
