@@ -52,8 +52,8 @@ MC1000.lastLoop = {};
 var PITCH_PITCH = false;
 var PITCH_SEEK = true;
 MC1000.pitchMode = {
-    "[Channel1]" : PITCH_PITCH,
-    "[Channel2]" : PITCH_PITCH,
+    "[Channel1]" : PITCH_SEEK,
+    "[Channel2]" : PITCH_SEEK,
 };
 
 MC1000.init = function () {
