@@ -86,12 +86,13 @@
                 </options>
             </control>
             <control>
-                <group>[Channel2]</group>
-                <key>MC1000.effectParameterKnob</key>
+                <group>[EffectRack1_EffectUnit4_Effect1]</group>
+                <key>parameter2</key>
+                <description>MIDI Learned from 105 messages.</description>
                 <status>0xB1</status>
                 <midino>0x03</midino>
                 <options>
-                    <script-binding/>
+                    <soft-takeover/>
                 </options>
             </control>
             <control>
@@ -208,11 +209,12 @@
             </control>
             <control>
                 <group>[Channel1]</group>
-                <key>MC1000.effectParameterKnob</key>
+                <key>rate</key>
+                <description>MIDI Learned from 130 messages.</description>
                 <status>0xB0</status>
                 <midino>0x01</midino>
                 <options>
-                    <script-binding/>
+                    <soft-takeover/>
                 </options>
             </control>
             <control>
@@ -341,23 +343,23 @@
                 </options>
             </control>
             <control>
-                <group>[QuickEffectRack1_[Channel1]]</group>
-                <key>super1</key>
+                <group>[EffectRack1_EffectUnit1]</group>
+                <key>MC1000.filterKnob</key>
                 <description>MIDI Learned from 251 messages.</description>
                 <status>0xB0</status>
                 <midino>0x05</midino>
                 <options>
-                    <normal/>
+                    <script-binding/>
                 </options>
             </control>
             <control>
-                <group>[QuickEffectRack1_[Channel2]]</group>
-                <key>super1</key>
+                <group>[EffectRack1_EffectUnit4]</group>
+                <key>MC1000.filterKnob</key>
                 <description>MIDI Learned from 472 messages.</description>
                 <status>0xB1</status>
                 <midino>0x05</midino>
                 <options>
-                    <normal/>
+                    <script-binding/>
                 </options>
             </control>
             <control>
@@ -427,21 +429,23 @@
                 </options>
             </control>
             <control>
-                <group>[Channel1]</group>
-                <key>MC1000.effectParameterKnob</key>
+                <group>[EffectRack1_EffectUnit1_Effect1]</group>
+                <key>parameter2</key>
+                <description>MIDI Learned from 70 messages.</description>
                 <status>0xB0</status>
                 <midino>0x04</midino>
                 <options>
-                    <script-binding/>
+                    <soft-takeover/>
                 </options>
             </control>
             <control>
                 <group>[Channel2]</group>
-                <key>MC1000.effectParameterKnob</key>
+                <key>rate</key>
+                <description>MIDI Learned from 176 messages.</description>
                 <status>0xB1</status>
                 <midino>0x04</midino>
                 <options>
-                    <script-binding/>
+                    <soft-takeover/>
                 </options>
             </control>
             <control>

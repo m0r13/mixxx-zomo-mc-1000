@@ -267,6 +267,12 @@ MC1000.effectSelectKnob = function(channel, control, value, status, group) {
     engine.setValue(group, "loop_move_" + loop + "_" + direction, false);
 };
 
+MC1000.filterKnob = function(channel, control, value, status, group) {
+    script.midiDebug(channel, control, value, status, group);
+    engine.setValue(group, "super1", script.absoluteLin(value, 0.0, 1.0));
+    // script.absoluteNonLin(value, 0.4, 0.707106781, 4.0, 0, 127)
+};
+
 MC1000.pitch = function(channel, control, value, status, group) {
     var mode = MC1000.pitchMode[group];
     var more = control == 0x0C && value == 0x7F;
