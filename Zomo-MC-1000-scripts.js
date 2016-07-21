@@ -287,12 +287,27 @@ MC1000.pitch = function(channel, control, value, status, group) {
             engine.setValue(group, "fwd", false);
         }
     } else if (mode == PITCH_PITCH) {
+        // rate_temp_up/down
         if (less) {
+            /*
+            print("less");
             engine.setValue(group, "rate_perm_down_small", true);
             engine.setValue(group, "rate_perm_down_small", false);
+            */
+            engine.setValue(group, "rate_temp_up", false);
+            engine.setValue(group, "rate_temp_down", true);
         } else if (more) {
+            /*
+            print("more");
             engine.setValue(group, "rate_perm_up_small", true);
             engine.setValue(group, "rate_perm_up_small", false);
+            */
+            engine.setValue(group, "rate_temp_up", true);
+            engine.setValue(group, "rate_temp_down", false);
+        } else {
+            //print("reset");
+            engine.setValue(group, "rate_temp_up", false);
+            engine.setValue(group, "rate_temp_down", false);
         }
     }
 };
